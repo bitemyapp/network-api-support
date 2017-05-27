@@ -39,6 +39,7 @@ runRequest' ::
   -> IO b
 runRequest' settings url transform responder =
   do url' <- parseUrl $ unpack url
-     let url'' = url' { checkStatus = const . const . const $ Nothing } -- handle all response codes.
-     let req = appEndo transform url''
+     -- handle all response codes.
+     let url'' = url' { checkResponse = \_ _ -> return () }
+         req = appEndo transform url''
      liftM (responder req) . withManager settings . httpLbs $ req
