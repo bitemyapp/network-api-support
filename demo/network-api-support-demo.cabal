@@ -20,7 +20,7 @@ Flag                small_base
 
 Executable          network-api-support-demo
   Hs-Source-Dirs:
-                    ../../src .
+                    ../src .
 
   Main-Is:
                     Main.hs

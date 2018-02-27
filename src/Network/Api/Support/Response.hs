@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings, FlexibleContexts, CPP #-}
 module Network.Api.Support.Response (
   Responder
 , JsonResult (..)
@@ -6,7 +7,10 @@ module Network.Api.Support.Response (
 , basicResponder
 ) where
 
+#if ! MIN_VERSION_base(4,8,0)
 import Control.Applicative
+#endif
+
 import qualified Data.ByteString as B
 import qualified Data.ByteString.Lazy as BL
 import Data.Attoparsec.Lazy
@@ -29,7 +33,7 @@ instance Functor JsonResult where
   fmap _ (DecodeError t) = DecodeError t
   fmap f (JsonSuccess a) = JsonSuccess $ f a
 
-instance Applicative JsonResult where 
+instance Applicative JsonResult where
    pure = JsonSuccess
 
    (JsonSuccess f)   <*> m = fmap f m
